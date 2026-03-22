@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  zf_driver_encoder                                                  13/01/26  21:31:31  PAGE 1   
+C251 COMPILER V5.60.0,  zf_driver_encoder                                                  21/03/26  13:02:29  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_driver_encoder
@@ -66,7 +66,7 @@ stmt  level    source
    51          // 函数简介     定时器编码器解码取值
    52          // 参数说明     timer_ch      定时器枚举体
    53          // 返回参数     void
-C251 COMPILER V5.60.0,  zf_driver_encoder                                                  13/01/26  21:31:31  PAGE 2   
+C251 COMPILER V5.60.0,  zf_driver_encoder                                                  21/03/26  13:02:29  PAGE 2   
 
    54          // 备注信息
    55          // 使用示例    encoder_get_count(TIM2_ENCODER)  // 获取定时器2的采集到的编码器数据
@@ -134,7 +134,7 @@ stmt  level    source
   113   3                  case TIM7_ENCODER:  T8T7M   &= ~(1 << 3); T7H = 0;  T7L = 0;  T8T7M   |= (1 << 3); break;
   114   3                  case TIM8_ENCODER:  T8T7M   &= ~(1 << 7); T8H = 0;  T8L = 0;  T8T7M   |= (1 << 3); break;
   115   3                  case TIM9_ENCODER:  T10T9M  &= ~(1 << 3); T9H = 0;  T9L = 0;  T10T9M  |= (1 << 3); break;
-C251 COMPILER V5.60.0,  zf_driver_encoder                                                  13/01/26  21:31:31  PAGE 3   
+C251 COMPILER V5.60.0,  zf_driver_encoder                                                  21/03/26  13:02:29  PAGE 3   
 
   116   3                  case TIM10_ENCODER: T10T9M  &= ~(1 << 7); T10H = 0; T10L = 0; T10T9M  |= (1 << 3); break;
   117   3                  case TIM11_ENCODER: T11CR   &= ~(1 << 7); T11H = 0; T11L = 0; T11CR   |= (1 << 7); break;
@@ -202,7 +202,7 @@ stmt  level    source
   175          // 函数简介     PWM编码器解码初始化
   176          // 参数说明     encoder_n        PWM通道
   177          // 参数说明     ch1_pin          通道A以及引脚
-C251 COMPILER V5.60.0,  zf_driver_encoder                                                  13/01/26  21:31:31  PAGE 4   
+C251 COMPILER V5.60.0,  zf_driver_encoder                                                  21/03/26  13:02:29  PAGE 4   
 
   178          // 参数说明     ch2_pin          通道B以及引脚
   179          // 返回参数     void
@@ -270,7 +270,7 @@ stmt  level    source
   234   1          // PWMA_CR2 = 0;            // 控制寄存器
   235   1          // PWMA_SR1 = 0;           // 状态寄存器
   236   1          // PWMA_SR2 = 0;            // 状态寄存器
-C251 COMPILER V5.60.0,  zf_driver_encoder                                                  13/01/26  21:31:31  PAGE 5   
+C251 COMPILER V5.60.0,  zf_driver_encoder                                                  21/03/26  13:02:29  PAGE 5   
 
   237   1          // PWMA_ARRH = 0xFF;            // 设置自动重装载值
   238   1          // PWMA_ARRL = 0xFF;            // 设置自动重装载值

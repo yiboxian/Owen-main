@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               16/03/26  22:12:25  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               22/03/26  16:00:56  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -66,7 +66,7 @@ stmt  level    source
    50          // 陀螺仪型号为IMU963RA 因兼容性改为IMU660RB//
    51          void main(void)
    52          {
-C251 COMPILER V5.60.0,  main                                                               16/03/26  22:12:25  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               22/03/26  16:00:56  PAGE 2   
 
    53   1      
    54   1          clock_init(SYSTEM_CLOCK_96M); // 时钟配置及系统初始化<务必保留>
@@ -95,12 +95,8 @@ stmt  level    source
              -z);
    76   2              system_delay_ms(1000);
    77   2      
-   78   2              
-   79   2      
-   80   2      
-   81   2      
-   82   2          }
-   83   1      }
+   78   2          }
+   79   1      }
 
 
 Module Information          Static   Overlayable

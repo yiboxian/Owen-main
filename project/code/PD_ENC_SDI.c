@@ -1,6 +1,7 @@
 #include "zf_common_headfile.h"
 #include "var.h"
-
+#include "PD_ENC_SDI.h"
+#include "motor.h"
 
 //#define PIT_PRIORITY                    (TIM1_IRQn)               TIM1???ж????????????????????????忴???
 
@@ -30,10 +31,10 @@ void ENC_Init(void)
 	encoder_quad_init(ENCODER_DIR_1,ENCODER_DIR_DIR_1,ENCODER_DIR_PULSE_1);
 	encoder_quad_init(ENCODER_DIR_2,ENCODER_DIR_DIR_2,ENCODER_DIR_PULSE_2);
 	// pit_ms_init(PIT_CH, 100, pit_handler);
+	initSlidingAverage(&filter_Left,6);  // 初始化滤波器
+	initSlidingAverage(&filter_Right,6);
 }
-#include "zf_common_headfile.h"
-#include "encoder.h"
-#include "motor.h"
+
 
 
 float speed_L=0,speed_R=0,speed_avl=0;
@@ -44,34 +45,24 @@ int32 distance_text=0;
 SlidingAverageFilter filter_Left;
 SlidingAverageFilter filter_Right;
 
-void encoder_init(void)
-{
-	encoder_dir_init(TIM0_ENCOEDER,IO_P35,TIM0_ENCOEDER_P34);
-	encoder_dir_init(TIM3_ENCOEDER,IO_P13,TIM3_ENCOEDER_P04);
-
-	initSlidingAverage(&filter_Left,6);  // 初始化滤波器
-	initSlidingAverage(&filter_Right,6);
+// void encoder_update(void)
+// {
+// 	//0-获取速度&清零
+// 	speed_R = (0.85f*encoder_get_count(TIM0_ENCOEDER));
+// 	speed_L = (0.85f*encoder_get_count(TIM3_ENCOEDER));
 	
-}
-
-void encoder_update(void)
-{
-	//0-获取速度&清零
-	speed_R = (0.85f*encoder_get_count(TIM0_ENCOEDER));
-	speed_L = (0.85f*encoder_get_count(TIM3_ENCOEDER));
-	
-	encoder_clear_count(TIM3_ENCOEDER);
-	encoder_clear_count(TIM0_ENCOEDER);
-	//1-一阶低通滤波
-	speed_L=(0.9*speed_L + 0.1*lastspeed_L);
-	speed_R=(0.9*speed_R + 0.1*lastspeed_R);
-	lastspeed_L = speed_L;
-	lastspeed_R = speed_R;
+// 	encoder_clear_count(TIM3_ENCOEDER);
+// 	encoder_clear_count(TIM0_ENCOEDER);
+// 	//1-一阶低通滤波
+// 	speed_L=(0.9*speed_L + 0.1*lastspeed_L);
+// 	speed_R=(0.9*speed_R + 0.1*lastspeed_R);
+// 	lastspeed_L = speed_L;
+// 	lastspeed_R = speed_R;
 	 
-	speed_avl = (speed_L + speed_R)/2;
+// 	speed_avl = (speed_L + speed_R)/2;
 	
-	distance_text += (int32)speed_avl;
-}
+// 	distance_text += (int32)speed_avl;
+// }
 //滤波方案2?//
 //void encoder_update(void)
 //{
@@ -107,7 +98,7 @@ void initSlidingAverage(SlidingAverageFilter* filter, int N) {
     filter->count = 0;
     filter->window_size = N;
 }
-	
+
 void slidingAverage(float now_speed, float* avg_speed, SlidingAverageFilter* filter) {
     // 从和中减去即将被替换的旧值
     filter->sum -= filter->buffer[filter->index];

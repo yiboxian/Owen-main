@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  PD_ENC_SDI                                                         16/03/26  20:34:21  PAGE 1   
+C251 COMPILER V5.60.0,  PD_ENC_SDI                                                         22/03/26  15:58:52  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE PD_ENC_SDI
@@ -12,48 +12,141 @@ stmt  level    source
 
     1          #include "zf_common_headfile.h"
     2          #include "var.h"
-    3          
-    4          
-    5          //#define PIT_PRIORITY                    (TIM1_IRQn)               TIM1???ж????????????????????????忴??
+    3          #include "PD_ENC_SDI.h"
+    4          #include "motor.h"
+    5          
+    6          //#define PIT_PRIORITY                    (TIM1_IRQn)               TIM1???ж????????????????????????忴??
              -?
-    6          
-    7          #define ENCODER_DIR_1                   (PWMA_ENCODER)              // ?????????????????????????? 
-    8          #define ENCODER_DIR_PULSE_1             (PWMA_ENCODER_CH1P_P60)     // PULSE ?????????
-    9          #define ENCODER_DIR_DIR_1               (PWMA_ENCODER_CH2P_P62)     // DIR ?????????
-   10          
-   11          #define ENCODER_DIR_2                   (PWMC_ENCODER)              // ??????????????????????????
-   12          #define ENCODER_DIR_PULSE_2                     (PWMC_ENCODER_CH1P_P40)     // PULSE ?????????
-   13          #define ENCODER_DIR_DIR_2               (PWMC_ENCODER_CH2P_P42) 
-   14          
-   15          extern  int16 encoder_data_dir_1;
-   16          extern  int16 encoder_data_dir_2;
-   17          
-   18          // void pit_handler (void)
-   19          // {
-   20              // encoder_data_dir_1 = encoder_get_count(ENCODER_DIR_1);                  // ?????????????
-   21              // encoder_data_dir_2 = encoder_get_count(ENCODER_DIR_2);                  // ?????????????
-   22          
-   23              // encoder_clear_count(ENCODER_DIR_1);                                              // ????????????
-   24              // encoder_clear_count(ENCODER_DIR_2);                                              // ????????????
-   25              
-   26          // }
-   27          
-   28          void ENC_Init(void)
-   29          {
-   30   1              encoder_quad_init(ENCODER_DIR_1,ENCODER_DIR_DIR_1,ENCODER_DIR_PULSE_1);
-   31   1              encoder_quad_init(ENCODER_DIR_2,ENCODER_DIR_DIR_2,ENCODER_DIR_PULSE_2);
-   32   1              // pit_ms_init(PIT_CH, 100, pit_handler);
-   33   1      }
+    7          
+    8          #define ENCODER_DIR_1                   (PWMA_ENCODER)              // ?????????????????????????? 
+    9          #define ENCODER_DIR_PULSE_1             (PWMA_ENCODER_CH1P_P60)     // PULSE ?????????
+   10          #define ENCODER_DIR_DIR_1               (PWMA_ENCODER_CH2P_P62)     // DIR ?????????
+   11          
+   12          #define ENCODER_DIR_2                   (PWMC_ENCODER)              // ??????????????????????????
+   13          #define ENCODER_DIR_PULSE_2                     (PWMC_ENCODER_CH1P_P40)     // PULSE ?????????
+   14          #define ENCODER_DIR_DIR_2               (PWMC_ENCODER_CH2P_P42) 
+   15          
+   16          extern  int16 encoder_data_dir_1;
+   17          extern  int16 encoder_data_dir_2;
+   18          
+   19          // void pit_handler (void)
+   20          // {
+   21              // encoder_data_dir_1 = encoder_get_count(ENCODER_DIR_1);                  // ?????????????
+   22              // encoder_data_dir_2 = encoder_get_count(ENCODER_DIR_2);                  // ?????????????
+   23          
+   24              // encoder_clear_count(ENCODER_DIR_1);                                              // ????????????
+   25              // encoder_clear_count(ENCODER_DIR_2);                                              // ????????????
+   26              
+   27          // }
+   28          
+   29          void ENC_Init(void)
+   30          {
+   31   1              encoder_quad_init(ENCODER_DIR_1,ENCODER_DIR_DIR_1,ENCODER_DIR_PULSE_1);
+   32   1              encoder_quad_init(ENCODER_DIR_2,ENCODER_DIR_DIR_2,ENCODER_DIR_PULSE_2);
+   33   1              // pit_ms_init(PIT_CH, 100, pit_handler);
+   34   1              initSlidingAverage(&filter_Left,6);  // 初始化滤波器
+   35   1              initSlidingAverage(&filter_Right,6);
+   36   1      }
+   37          
+   38          
+   39          
+   40          float speed_L=0,speed_R=0,speed_avl=0;
+   41          float speed_L_next=0,speed_R_next=0,speed_avl_next;
+   42          int16 lastspeed_L=0,lastspeed_R=0;
+   43          int32 distance_text=0;
+   44          
+   45          SlidingAverageFilter filter_Left;
+   46          SlidingAverageFilter filter_Right;
+   47          
+   48          // void encoder_update(void)
+   49          // {
+   50          //      //0-获取速度&清零
+   51          //      speed_R = (0.85f*encoder_get_count(TIM0_ENCOEDER));
+   52          //      speed_L = (0.85f*encoder_get_count(TIM3_ENCOEDER));
+   53                  
+   54          //      encoder_clear_count(TIM3_ENCOEDER);
+   55          //      encoder_clear_count(TIM0_ENCOEDER);
+C251 COMPILER V5.60.0,  PD_ENC_SDI                                                         22/03/26  15:58:52  PAGE 2   
+
+   56          //      //1-一阶低通滤波
+   57          //      speed_L=(0.9*speed_L + 0.1*lastspeed_L);
+   58          //      speed_R=(0.9*speed_R + 0.1*lastspeed_R);
+   59          //      lastspeed_L = speed_L;
+   60          //      lastspeed_R = speed_R;
+   61                   
+   62          //      speed_avl = (speed_L + speed_R)/2;
+   63                  
+   64          //      distance_text += (int32)speed_avl;
+   65          // }
+   66          //滤波方案2?//
+   67          //void encoder_update(void)
+   68          //{
+   69          //      //0-获取速度&清零
+   70          //      speed_R_next = (float)-encoder_get_count(TIM0_ENCOEDER);
+   71          //      speed_L_next = (float)-encoder_get_count(TIM3_ENCOEDER);
+   72          //      
+   73          //      encoder_clear_count(TIM3_ENCOEDER);
+   74          //      encoder_clear_count(TIM0_ENCOEDER);
+   75          //      //1-滑动平均滤波
+   76          //      slidingAverage(speed_L_next,&speed_L, &filter_Left);
+   77          //      slidingAverage(speed_R_next,&speed_R, &filter_Right);
+   78          
+   79          //      //2-实际速度及其距离
+   80          //      speed_avl_next = (speed_R_next + speed_L_next)/2;
+   81          //      speed_avl = (speed_L + speed_R)/2;
+   82          //      
+   83          //      
+   84          //      distance_text += (int32)speed_avl;
+   85          //}
+   86          
+   87          void initSlidingAverage(SlidingAverageFilter* filter, int N) {
+   88   1               uint8 Win_i=0;
+   89   1          if (N > MAX_WINDOW_SIZE) {
+   90   2              N = MAX_WINDOW_SIZE; // 限制窗口大小不能超过最大值
+   91   2          }
+   92   1      
+   93   1          for (Win_i = 0; Win_i < MAX_WINDOW_SIZE; Win_i++) {
+   94   2              filter->buffer[Win_i] = 0.0f;
+   95   2          }
+   96   1          filter->sum = 0.0f;
+   97   1          filter->index = 0;
+   98   1          filter->count = 0;
+   99   1          filter->window_size = N;
+  100   1      }
+  101          
+  102          void slidingAverage(float now_speed, float* avg_speed, SlidingAverageFilter* filter) {
+  103   1          // 从和中减去即将被替换的旧值
+  104   1          filter->sum -= filter->buffer[filter->index];
+  105   1      
+  106   1          // 将新的值插入缓冲区
+  107   1          filter->buffer[filter->index] = now_speed;
+  108   1      
+  109   1          // 更新和
+  110   1          filter->sum += now_speed;
+  111   1      
+  112   1          // 更新索引，使其循环回到起始位置
+  113   1          filter->index = (filter->index + 1) % filter->window_size;
+  114   1      
+  115   1          // 如果窗口没有满，增加计数
+  116   1          if (filter->count < filter->window_size) {
+  117   2              filter->count++;
+  118   2          }
+  119   1      
+  120   1          // 计算并返回当前窗口的平均值
+  121   1          *avg_speed = filter->sum / filter->count;
+C251 COMPILER V5.60.0,  PD_ENC_SDI                                                         22/03/26  15:58:52  PAGE 3   
+
+  122   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
   code size            =    ------     ------
-  ecode size           =        31     ------
+  ecode size           =       635     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-  xdata size           =    ------     ------
+  xdata size           =        95     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
   bit size             =    ------     ------
@@ -63,7 +156,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =    ------     ------
+  hconst size          =        68     ------
 End of Module Information.
 
 

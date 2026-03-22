@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              16/03/26  21:25:52  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              22/03/26  15:59:18  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -66,7 +66,7 @@ stmt  level    source
    53   1              {
    54   2                  duty ++;                                                            // 正向计数
    55   2                  if(duty >= MAX_DUTY)                                                // 达到最大值
-C251 COMPILER V5.60.0,  Motor                                                              16/03/26  21:25:52  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              22/03/26  15:59:18  PAGE 2   
 
    56   2                  dir = 0;                                                            // 变更计数方向
    57   2              }
@@ -81,7 +81,6 @@ stmt  level    source
    66   1              // 此处编写需要循环执行的代码
    67   1      
    68   1      }       
-   69          
 
 
 Module Information          Static   Overlayable

@@ -44,8 +44,8 @@ void Motor_Control(void)
             gpio_set_level(DIR_2, GPIO_HIGH);                                   // DIR输出高电平
             pwm_set_duty(PWM_2, duty * (PWM_DUTY_MAX / 100));                   // 计算占空比
 
-            gpio_set_level(DIR_3, GPIO_HIGH);                                   // DIR输出高电平
-            pwm_set_duty(PWM_3, duty * (PWM_DUTY_MAX / 100));                   // 计算占空比
+            // gpio_set_level(DIR_3, GPIO_HIGH);                                   // DIR输出高电平
+            // pwm_set_duty(PWM_3, duty * (PWM_DUTY_MAX / 100));                   // 计算占空比
 
         }
         
@@ -66,4 +66,10 @@ void Motor_Control(void)
         // 此处编写需要循环执行的代码
 
 }	
+// void N_pressure_Fan_Init(void)
+// {
+// 	pwn_init(PWM_3);
 
+
+
+// }

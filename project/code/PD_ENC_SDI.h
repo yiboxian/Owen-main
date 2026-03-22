@@ -1,13 +1,10 @@
-#ifndef __ENC_H_
-#define __ENC_H_
+
 void ENC_Init(void);
 void pit_handler (void);
 
 #ifndef __ENCODER_H
 #define __ENCODER_H
 
-
-#include "bsp_system.h"
 
 
 #define DIL P13
@@ -40,6 +37,6 @@ void encoder_update(void);
 void initSlidingAverage(SlidingAverageFilter* filter, int N);
 void slidingAverage(float now_speed, float* avg_speed, SlidingAverageFilter* filter);
 
-#endif
+
 
 #endif

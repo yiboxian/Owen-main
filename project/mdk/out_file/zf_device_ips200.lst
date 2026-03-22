@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 1   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_device_ips200
@@ -66,7 +66,7 @@ stmt  level    source
    50          
    51          #include "zf_common_clock.h"
    52          #include "zf_common_debug.h"
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 2   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 2   
 
    53          #include "zf_common_font.h"
    54          #include "zf_common_function.h"
@@ -134,7 +134,7 @@ stmt  level    source
   112   1      
   113   1              ips200_write_index(0x2a);                                               // 列地址设置
   114   1              ips200_write_16bit_data(x1);
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 3   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 3   
 
   115   1              ips200_write_16bit_data(x2);
   116   1              ips200_write_index(0x2b);                                               // 行地址设置
@@ -202,7 +202,7 @@ stmt  level    source
   173          // 使用示例                ips200_set_color(WHITE,BLACK);
   174          //-------------------------------------------------------------------------------------------------------
              -------------
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 4   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 4   
 
   175          void ips200_set_color (uint16 pen, uint16 bgcolor)
   176          {
@@ -270,7 +270,7 @@ stmt  level    source
   232          // 参数说明       y               坐标y方向的起点 参数范围 [0, ips200_y_max-1]
   233          // 参数说明       dat             需要显示的字符串
   234          // 返回参数       void
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 5   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 5   
 
   235          // 使用示例                ips200_show_string(0,0,"seekfree");
   236          //-------------------------------------------------------------------------------------------------------
@@ -338,7 +338,7 @@ stmt  level    source
              -------------
   294          void ips200_show_uint8(uint16 x,uint16 y,uint8 dat)
   295          {
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 6   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 6   
 
   296   1              
   297   1          uint8 a[3];
@@ -406,7 +406,7 @@ stmt  level    source
   356          // 参数说明       dat             需要显示的变量，数据类型uint16
   357          // 返回参数       void
   358          // 使用示例                ips200_show_uint16(0,0,x);                      // x 为 uint16 类型
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 7   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 7   
 
   359          //-------------------------------------------------------------------------------------------------------
              -------------
@@ -474,7 +474,7 @@ stmt  level    source
   418   1      }
   419          
   420          //-------------------------------------------------------------------------------------------------------
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 8   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 8   
 
              -------------
   421          // 函数简介       液晶显示浮点数(去除整数部分无效的0)
@@ -542,7 +542,7 @@ stmt  level    source
   479          // 参数说明       dis_value_max   波形显示最大值 参数范围 [0, ips200_y_max]
   480          // 返回参数       void
   481          // 使用示例                ips200_show_gray_image(0,0,camera_buffer_addr,MT9V03X_W,MT9V03X_H,240,135,128)
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 9   
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 9   
 
              -;
   482          //-------------------------------------------------------------------------------------------------------
@@ -610,7 +610,7 @@ stmt  level    source
   539   3                  for(k=0;k<temp2;k++)
   540   3                  {
   541   4                      for(j=8;j>0;j--)
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 10  
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 10  
 
   542   4                      {
   543   5                          temp = (*p_data>>(j-1)) & 0x01;
@@ -678,7 +678,7 @@ stmt  level    source
   600   4                      data_buffer[i] = (color);
   601   4                  }
   602   3                  else if(temp < threshold)
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 11  
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 11  
 
   603   3                  {
   604   4                      data_buffer[i] = (RGB565_BLACK);
@@ -746,7 +746,7 @@ stmt  level    source
   662   1          ips200_write_index(0xB7);
   663   1          ips200_write_8bit_data(0x35);
   664   1      
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 12  
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 12  
 
   665   1          ips200_write_index(0xBB);
   666   1          ips200_write_8bit_data(0x37);
@@ -815,7 +815,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-C251 COMPILER V5.60.0,  zf_device_ips200                                                   13/01/26  21:31:33  PAGE 13  
+C251 COMPILER V5.60.0,  zf_device_ips200                                                   21/03/26  13:02:31  PAGE 13  
 
   code size            =    ------     ------
   ecode size           =      5902     ------

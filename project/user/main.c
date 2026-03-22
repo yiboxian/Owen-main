@@ -75,9 +75,5 @@ void main(void)
 		printf("\r\nIMU660RB acc data:  x=%5d, y=%5d, z=%5d\r\n", imu660rb_acc_x, imu660rb_acc_y, imu660rb_acc_z);
         system_delay_ms(1000);
 
-        
-
-
-
     }
 }

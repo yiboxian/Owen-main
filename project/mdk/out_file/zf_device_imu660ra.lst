@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 1   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_device_imu660ra
@@ -66,7 +66,7 @@ stmt  level    source
    51          *                   VCC               3.3V电源
    52          *                   GND               电源地
    53          *                   其余引脚悬空
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 2   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 2   
 
    54          *                   ------------------------------------
    55          *********************************************************************************************************
@@ -134,7 +134,7 @@ stmt  level    source
   108                  // 参数说明     reg             寄存器地址
   109                  // 返回参数     uint8           数据
   110                  // 使用示例     imu660ra_read_register(IMU660RA_CHIP_ID);
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 3   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 3   
 
   111                  // 备注信息     内部调用
   112                  //------------------------------------------------------------------------------------------------------
@@ -202,7 +202,7 @@ stmt  level    source
                                        byte |= IMU660RA_MISO;
                                }
                                IMU660RA_SCK (0);
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 4   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 4   
 
                                return(byte);
                        }
@@ -270,7 +270,7 @@ stmt  level    source
                        // 参数说明     reg             寄存器地址
                        // 参数说明     dat            数据
                        // 返回参数     void
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 5   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 5   
 
                        // 使用示例     imu660ra_write_register(IMU660RA_PWR_CONF, 0x00);                   // 关闭高级省电模式
                        // 备注信息     内部调用
@@ -338,7 +338,7 @@ stmt  level    source
                                imu660ra_simspi_r_reg_bytes(reg | IMU660RA_SPI_R, temp_data, len + 1);
                                IMU660RA_CS(1);
                                
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 6   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 6   
 
                                for(i = 0; i < len; i ++)
                                {
@@ -406,7 +406,7 @@ stmt  level    source
   341          void imu660ra_get_acc (void)
   342          {
   343   1          uint8 dat[6];
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 7   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 7   
 
   344   1          
   345   1          imu660ra_read_registers(IMU660RA_ACC_ADDRESS, dat, 6);
@@ -474,7 +474,7 @@ stmt  level    source
   398   3                  // 如果程序在输出了断言信息 并且提示出错位置在这里
   399   3                  // 那么就是 IMU660RA 自检出错并超时退出了
   400   3                  // 检查一下接线有没有问题 如果没问题可能就是坏了
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 8   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 8   
 
   401   3                  printf( "imu660ra self check error.\r\n");
   402   3                  return_state = 1;
@@ -542,7 +542,7 @@ stmt  level    source
   455   3                  case IMU660RA_ACC_SAMPLE_SGN_8G:
   456   3                  {
   457   4                      imu660ra_write_register(IMU660RA_ACC_RANGE, 0x02);
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 9   
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 9   
 
   458   4                      imu660ra_transition_factor[0] = 4096;
   459   4                  }
@@ -610,7 +610,7 @@ stmt  level    source
   516   3                  break;
   517   3                  
   518   3                  case IMU660RA_GYRO_SAMPLE_SGN_2000DPS:
-C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 13/01/26  21:31:35  PAGE 10  
+C251 COMPILER V5.60.0,  zf_device_imu660ra                                                 21/03/26  13:02:32  PAGE 10  
 
   519   3                  {
   520   4                      imu660ra_write_register(IMU660RA_GYR_RANGE, 0x00);
